@@ -1,8 +1,18 @@
 // Listen for submit
-document.querySelector("#loan-form").addEventListener("submit", calculateResult);
+document.querySelector("#loan-form").addEventListener("submit", function(e) {
+    // Hide results
+    document.getElementById("results").style.display = "none";
+    
+    // Show loader
+    document.getElementById("loading").style.display = "block";
+
+    setTimeout(calculateResult, 2000);
+
+    e.preventDefault();
+});
 
 // Calculate results
-function calculateResult(e) {
+function calculateResult() {
     // UI Variables
     const loanAmount = document.getElementById("amount");
     const interestRate = document.getElementById("interest");
@@ -23,14 +33,21 @@ function calculateResult(e) {
         monthlyPayment.value = monthly.toFixed(2);
         totalPayment.value = (monthly * calculatedPayments).toFixed(2);
         totalInterest.value = ((monthly * calculatedPayments)-principal).toFixed(2);
+
+        // Show results
+        document.getElementById("results").style.display = "block";
+        // Hide loader
+        document.getElementById("loading").style.display = "none";
     } else {
         showError("Please make sure your loan details are complete");
     }
-
-    e.preventDefault();
 }
 
 function showError(error) {
+
+    // Hide loader
+    document.getElementById("loading").style.display = "none";
+    
     // Create a div
     const errorDiv = document.createElement("div");
 
